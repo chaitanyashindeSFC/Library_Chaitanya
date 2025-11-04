@@ -1,0 +1,11 @@
+node_modules/
+dist/
+*.tgz
+package-lock.json
+.env
+.DS_Store
+.vscode/
+.idea/
+npm-debug.log
+/.cache
+coverage/

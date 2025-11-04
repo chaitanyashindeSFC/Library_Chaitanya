@@ -1,0 +1,73 @@
+import React, { createContext, useContext } from "react";
+
+const BreadCrumbContext = createContext<any>(null);
+
+function useBreadCrumbContext() {
+  const ctx = useContext(BreadCrumbContext);
+  if (!ctx) throw new Error("BreadCrumb subcomponents must be used within <BreadCrumb>");
+  return ctx;
+}
+
+function BreadCrumb({ children, className = "", separator = "/", ...props }: any) {
+  return (
+    <BreadCrumbContext.Provider value={{ separator }}>
+      <nav
+        aria-label="breadcrumb"
+        className={`w-fit flex items-center gap-2 text-xs font-medium font-['Montserrat'] leading-5 ${className}`}
+        {...props}
+      >
+        {children}
+      </nav>
+    </BreadCrumbContext.Provider>
+  );
+}
+
+function BreadCrumbItem({ label, icon: Icon, href, active = false, className = "", ...props }: any) {
+  const textColor = active ? "#122F3E" : "#6B7280";
+
+  const content = (
+    <div
+      className={`flex items-center gap-2 transition-colors duration-200 ${className}`}
+      style={{ color: textColor }}
+      {...props}
+    >
+      {Icon && <Icon size={16} strokeWidth={1.5} color={textColor} />}
+      <span className={`leading-5 ${active ? "font-semibold" : "hover:text-[#4B5563]"}`}>
+        {label}
+      </span>
+    </div>
+  );
+
+  return href && !active ? (
+    <a href={href} className="flex items-center w-fit">
+      {content}
+    </a>
+  ) : (
+    <div className="w-fit">{content}</div>
+  );
+}
+
+function BreadCrumbSeparator({ icon: Icon, className = "", ...props }: any) {
+  const { separator } = useBreadCrumbContext();
+  return (
+    <span className={`text-[#9CA3AF] text-sm flex items-center ${className}`} {...props}>
+      {Icon ? <Icon size={14} strokeWidth={1.5} /> : separator}
+    </span>
+  );
+}
+
+function BreadCrumbT({ items = [], separator = "/", className = "" }: any) {
+  return (
+    <BreadCrumb separator={separator} className={className}>
+      {items.map((item: any, index: number) => (
+        <React.Fragment key={index}>
+          <BreadCrumbItem label={item.label} icon={item.icon} href={item.href} active={item.active} />
+          {index < items.length - 1 && <BreadCrumbSeparator />}
+        </React.Fragment>
+      ))}
+    </BreadCrumb>
+  );
+}
+
+export default BreadCrumbT;
+export { BreadCrumb, BreadCrumbItem, BreadCrumbSeparator };

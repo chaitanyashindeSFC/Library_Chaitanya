@@ -1,0 +1,143 @@
+stfox-tailwind-react-ui - Usage Guide
+
+Overview
+--------
+This repository provides a small React + Tailwind component library (Flowbite-like) exported under the package name `stfox-tailwind-react-ui`.
+Components use Tailwind CSS classes for styling and are shipped as TypeScript React components (.tsx). Many components accept a `style?: React.CSSProperties` prop in addition to className so you can pass inline styles if needed.
+
+Install
+-------
+1. Ensure peer deps are installed in your project:
+   - react (>=18)
+   - react-dom (>=18)
+
+2. Install the package from npm (example):
+
+   npm install stfox-tailwind-react-ui
+
+3. Add the library CSS (the library bundles a compiled Tailwind stylesheet).
+   Import the CSS before any component usage in your app entry (e.g., src/main.tsx or src/index.tsx):
+
+   import 'stfox-tailwind-react-ui/dist/styles.css';
+
+   Or if you consume it from the built `dist` folder, import the CSS path you publish according to your bundler.
+
+Quick note on icons and Flowbite:
+- Some components rely on `lucide-react` or `flowbite-react` components at runtime. Make sure to have them installed (they are listed in package.json dependencies):
+  npm install lucide-react flowbite-react
+
+Basic import patterns
+---------------------
+Import components from the package entry:
+
+  import { AlertTA, ButtonTA, TabTA, TabListTA, DropdownTA } from 'stfox-tailwind-react-ui';
+
+Alert example (TSX)
+-------------------
+// Basic info alert
+import React from 'react';
+import { AlertTA } from 'stfox-tailwind-react-ui';
+
+export default function Example() {
+  return (
+    <AlertTA
+      title={<span className="font-medium">Info alert!</span>}
+      description={"Change a few things up and try submitting again."}
+      type="info" // 'info' | 'success' | 'error' | 'warning'
+      style={{ maxWidth: 480 }}
+    />
+  );
+}
+
+Alert props quick reference
+- title?: React.ReactNode - Title or header node
+- description?: React.ReactNode - Body text or nodes
+- type?: 'info' | 'success' | 'error' | 'warning' - Visual style
+- style?: React.CSSProperties - Inline styles
+
+Button example (TSX)
+---------------------
+import React from 'react';
+import { ButtonTA } from 'stfox-tailwind-react-ui';
+
+export function DemoButton() {
+  return <ButtonTA label="Primary" onClick={() => alert('clicked')} />;
+}
+
+Button props quick reference (summary)
+- label: string | React.ReactNode
+- onClick?: () => void
+- className?: string
+- style?: React.CSSProperties
+
+Tabs example (TSX)
+-------------------
+import React, { useState } from 'react';
+import { TabListTA, TabTA } from 'stfox-tailwind-react-ui';
+
+export default function TabsDemo() {
+  const [active, setActive] = useState('Overview');
+  const tabs = [{ title: 'Overview' }, { title: 'Alerts' }, { title: 'Buttons' }];
+
+  return (
+    <div>
+      <TabListTA tabs={tabs} activeTab={active} onChange={(t) => setActive(t)} style={{ marginBottom: 12 }} />
+      <div>Active tab: {active}</div>
+    </div>
+  );
+}
+
+Dropdown example (TSX)
+----------------------
+import React from 'react';
+import DropdownTA, { DropdownTriggerTA, DropdownContentTA, DropdownSearchTA, DropdownItemTA } from 'stfox-tailwind-react-ui';
+
+function MyDropdown() {
+  const items = [{ name: 'Alice' }, { name: 'Bob' }];
+
+  return (
+    <DropdownTA items={items} getItemLabel={(i) => i.name} showSearch>
+      <DropdownTriggerTA />
+      <DropdownContentTA>
+        <DropdownSearchTA />
+        {items.map((it, idx) => (
+          <DropdownItemTA key={idx} item={it} />
+        ))}
+      </DropdownContentTA>
+    </DropdownTA>
+  );
+}
+
+Usage notes and best practices
+------------------------------
+- Styles: the library uses Tailwind classes. If you want to override styles, prefer `className` first. Use `style` for small inline style adjustments (widths, colors) as the components accept `style` where applicable.
+- Icons: pass icon components (lucide-react or other) as props when components accept `icon` (e.g., `icon={HiInformationCircle}`). Icon components are rendered with `size` and `color` props where the component passes them.
+- Accessibility: components include basic aria/role attributes (e.g., AlertTA role="alert"). When adding interactive controls, ensure keyboard focus and aria labels are present at usage site if you modify markup.
+- TypeScript: components ship with basic types. For stricter contracts, extend or wrap components in your app if you need additional TypeScript guarantees.
+
+Publishing / Versioning notes
+----------------------------
+- The package name configured in this repo is `stfox-tailwind-react-ui`.
+- Before publishing make sure:
+  1. You're logged in to npm: `npm whoami` (if not, `npm login`).
+  2. Run the build: `npm run build` (this runs tsup and builds the CSS via Tailwind).
+  3. Publish: `npm publish --access public` (for scoped public packages, include --access public; unscoped packages publish public by default).
+
+Troubleshooting
+---------------
+- If `npm publish` returns a 404 about a scope, it means you tried to publish under a scope you don't own. Use an unscoped name or a scope that matches your npm account.
+- If bundle/types fail, run `npm run build` and inspect TypeScript errors. The build exits with non-zero status when errors occur.
+
+Converting this doc to .docx
+----------------------------
+If you need a .docx file for the other project, I can convert this text into a .docx and place it in the other repo. Provide the target path or tell me to create `stfox-docs.docx` here and I'll export it.
+
+Where this file lives
+---------------------
+Saved at: ./USAGE.txt in the project root. Copy or convert it to a .docx as needed.
+
+If you want more:
+- I can expand per-component docs with full prop tables, code playground snippets, and screenshots.
+- I can also generate a markdown version and then convert to .docx for you.
+
+End of usage guide.

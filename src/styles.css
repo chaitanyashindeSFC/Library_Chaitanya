@@ -1,0 +1,67 @@
+/* src/styles.css */
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-color: #173b4e;
+  --primary-hover: #102a3a;
+  --secondary-color: #ffffff;
+  --disabled-color: #c4c4c4;
+}
+
+/* Base button styles */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 128px;
+  height: 37px;
+  padding: 8px 12px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+/* Variants */
+.btn-primary {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+}
+
+.btn-secondary {
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+}
+
+.btn-secondary:hover {
+  background-color: #f5f8fa;
+}
+
+.btn-tertiary {
+  background: transparent;
+  color: var(--primary-color);
+  border: none;
+}
+
+.btn-tertiary:hover {
+  background: #f0f4f7;
+}
+
+/* Disabled */
+.btn-disabled {
+  background-color: var(--disabled-color);
+  color: #ffffff;
+  cursor: not-allowed;
+}
